@@ -35,21 +35,21 @@ head_node_ip_infiniband=$(srun --nodes=1 --ntasks=1 -w "$head_node" ip -o -4 add
 
 #INSERT YOUR SCRIPT HERE
 # senza infiniband
-#export MASTER_ADDR=$head_node_ip
-#export MASTER_PORT=29500
-#export NCCL_IB_DISABLE=1   # Disabilita InfiniBand
-#export NCCL_P2P_DISABLE=0  # Mantiene il supporto per P2P over PCIe
-#export NCCL_SHM_DISABLE=0  # Abilita l'uso della shared memory 
+export MASTER_ADDR=$head_node_ip
+export MASTER_PORT=29500
+export NCCL_IB_DISABLE=1   # Disabilita InfiniBand
+export NCCL_P2P_DISABLE=0  # Mantiene il supporto per P2P over PCIe
+export NCCL_SHM_DISABLE=0  # Abilita l'uso della shared memory 
 
 
 # Configura NCCL per InfiniBand
-export MASTER_ADDR=$head_node_ip_infiniband
-export MASTER_PORT=$(expr 10000 + $(echo -n $SLURM_JOBID | tail -c 4))
-export NCCL_SOCKET_IFNAME=ib0
-export NCCL_IB_HCA=mlx5_0
-export NCCL_IB_DISABLE=0
-export NCCL_P2P_DISABLE=0
-export NCCL_SHM_DISABLE=0
+# export MASTER_ADDR=$head_node_ip_infiniband
+# export MASTER_PORT=$(expr 10000 + $(echo -n $SLURM_JOBID | tail -c 4))
+# export NCCL_SOCKET_IFNAME=ib0
+# export NCCL_IB_HCA=mlx5_0
+# export NCCL_IB_DISABLE=0
+# export NCCL_P2P_DISABLE=0
+# export NCCL_SHM_DISABLE=0
 # export NCCL_IB_GID_INDEX=3
 
 echo "CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES"
@@ -66,4 +66,4 @@ srun torchrun  \
     --nproc_per_node=2 \
     --rdzv_backend=c10d \
     --rdzv_endpoint=$MASTER_ADDR:$MASTER_PORT \
-    multinode-torchrun.py 150 10
+    multinode-torchrun.py 500 10
