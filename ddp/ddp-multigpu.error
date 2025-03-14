@@ -1,0 +1,129 @@
+W0221 09:45:10.281365 3381160 site-packages/torch/distributed/run.py:792] 
+W0221 09:45:10.281365 3381160 site-packages/torch/distributed/run.py:792] *****************************************
+W0221 09:45:10.281365 3381160 site-packages/torch/distributed/run.py:792] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0221 09:45:10.281365 3381160 site-packages/torch/distributed/run.py:792] *****************************************
+W0221 09:45:10.673711 1347625 site-packages/torch/distributed/run.py:792] 
+W0221 09:45:10.673711 1347625 site-packages/torch/distributed/run.py:792] *****************************************
+W0221 09:45:10.673711 1347625 site-packages/torch/distributed/run.py:792] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0221 09:45:10.673711 1347625 site-packages/torch/distributed/run.py:792] *****************************************
+[E221 09:45:53.206225846 socket.cpp:1023] [c10d] The client socket has timed out after 60000ms while trying to connect to (192.168.4.101, 10361).
+[W221 09:45:53.206645320 TCPStore.cpp:330] [c10d] TCP client failed to connect/validate to host 192.168.4.101:10361 - retrying (try=0, timeout=60000ms, delay=42237ms): The client socket has timed out after 60000ms while trying to connect to (192.168.4.101, 10361).
+Exception raised from throwTimeoutError at /pytorch/torch/csrc/distributed/c10d/socket.cpp:1025 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x1528a4ddd1b6 in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x16144fe (0x1528e04484fe in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x63501ce (0x1528e51841ce in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x6350386 (0x1528e5184386 in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: <unknown function> + 0x63507f4 (0x1528e51847f4 in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0x630d216 (0x1528e5141216 in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libtorch_cpu.so)
+frame #6: c10d::TCPStore::TCPStore(std::string, c10d::TCPStoreOptions const&) + 0x20c (0x1528e514414c in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libtorch_cpu.so)
+frame #7: <unknown function> + 0xe44227 (0x1528f4d5a227 in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libtorch_python.so)
+frame #8: <unknown function> + 0x51935a (0x1528f442f35a in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libtorch_python.so)
+frame #9: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x507767]
+frame #10: _PyObject_MakeTpCall + 0x2ec (0x4f077c in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #11: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x505690]
+frame #12: PyVectorcall_Call + 0x87 (0x505e37 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #13: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x502ae2]
+frame #14: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4f0c30]
+frame #15: <unknown function> + 0x517bdb (0x1528f442dbdb in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libtorch_python.so)
+frame #16: _PyObject_MakeTpCall + 0x2ec (0x4f077c in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #17: _PyEval_EvalFrameDefault + 0x542c (0x4ece2c in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #18: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4f81d3]
+frame #19: _PyEval_EvalFrameDefault + 0x3d5 (0x4e7dd5 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #20: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4f81d3]
+frame #21: _PyEval_EvalFrameDefault + 0x3d5 (0x4e7dd5 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #22: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4f81d3]
+frame #23: _PyEval_EvalFrameDefault + 0x3d5 (0x4e7dd5 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #24: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4f81d3]
+frame #25: _PyEval_EvalFrameDefault + 0x68f (0x4e808f in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #26: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4f81d3]
+frame #27: _PyEval_EvalFrameDefault + 0x4d0f (0x4ec70f in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #28: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4f81d3]
+frame #29: _PyEval_EvalFrameDefault + 0x3d5 (0x4e7dd5 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #30: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4e6afa]
+frame #31: _PyObject_FastCallDictTstate + 0x13e (0x4effee in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #32: _PyObject_Call_Prepend + 0x66 (0x502de6 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #33: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x5cb733]
+frame #34: PyObject_Call + 0x158 (0x505c58 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #35: _PyEval_EvalFrameDefault + 0x44a1 (0x4ebea1 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #36: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4f81d3]
+frame #37: _PyEval_EvalFrameDefault + 0x3d5 (0x4e7dd5 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #38: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4f81d3]
+frame #39: _PyEval_EvalFrameDefault + 0x44a1 (0x4ebea1 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #40: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4e6afa]
+frame #41: _PyFunction_Vectorcall + 0xd5 (0x4f7ef5 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #42: _PyEval_EvalFrameDefault + 0x3d5 (0x4e7dd5 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #43: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4e6afa]
+frame #44: _PyEval_EvalCodeWithName + 0x47 (0x4e6787 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #45: PyEval_EvalCodeEx + 0x39 (0x4e6739 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #46: PyEval_EvalCode + 0x1b (0x5942bb in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #47: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x5c1777]
+frame #48: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x5bd780]
+frame #49: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x456695]
+frame #50: PyRun_SimpleFileExFlags + 0x1a2 (0x5b7462 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #51: Py_RunMain + 0x37e (0x5b49de in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #52: Py_BytesMain + 0x39 (0x588369 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #53: __libc_start_main + 0xf3 (0x1529066cbca3 in /lib64/libc.so.6)
+frame #54: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x58821e]
+
+[E221 09:46:08.184781466 socket.cpp:1023] [c10d] The client socket has timed out after 60000ms while trying to connect to (192.168.4.101, 10361).
+[W221 09:46:08.185230980 TCPStore.cpp:330] [c10d] TCP client failed to connect/validate to host 192.168.4.101:10361 - retrying (try=0, timeout=60000ms, delay=36535ms): The client socket has timed out after 60000ms while trying to connect to (192.168.4.101, 10361).
+Exception raised from throwTimeoutError at /pytorch/torch/csrc/distributed/c10d/socket.cpp:1025 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x15451adf01b6 in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x16144fe (0x15455645b4fe in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x63501ce (0x15455b1971ce in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x6350386 (0x15455b197386 in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: <unknown function> + 0x63507f4 (0x15455b1977f4 in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: <unknown function> + 0x630d216 (0x15455b154216 in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libtorch_cpu.so)
+frame #6: c10d::TCPStore::TCPStore(std::string, c10d::TCPStoreOptions const&) + 0x20c (0x15455b15714c in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libtorch_cpu.so)
+frame #7: <unknown function> + 0xe44227 (0x15456ad6d227 in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libtorch_python.so)
+frame #8: <unknown function> + 0x51935a (0x15456a44235a in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libtorch_python.so)
+frame #9: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x507767]
+frame #10: _PyObject_MakeTpCall + 0x2ec (0x4f077c in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #11: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x505690]
+frame #12: PyVectorcall_Call + 0x87 (0x505e37 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #13: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x502ae2]
+frame #14: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4f0c30]
+frame #15: <unknown function> + 0x517bdb (0x15456a440bdb in /home/apetrella/miniconda3/envs/Parallel-DL/lib/python3.9/site-packages/torch/lib/libtorch_python.so)
+frame #16: _PyObject_MakeTpCall + 0x2ec (0x4f077c in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #17: _PyEval_EvalFrameDefault + 0x542c (0x4ece2c in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #18: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4f81d3]
+frame #19: _PyEval_EvalFrameDefault + 0x3d5 (0x4e7dd5 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #20: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4f81d3]
+frame #21: _PyEval_EvalFrameDefault + 0x3d5 (0x4e7dd5 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #22: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4f81d3]
+frame #23: _PyEval_EvalFrameDefault + 0x3d5 (0x4e7dd5 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #24: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4f81d3]
+frame #25: _PyEval_EvalFrameDefault + 0x68f (0x4e808f in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #26: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4f81d3]
+frame #27: _PyEval_EvalFrameDefault + 0x4d0f (0x4ec70f in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #28: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4f81d3]
+frame #29: _PyEval_EvalFrameDefault + 0x3d5 (0x4e7dd5 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #30: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4e6afa]
+frame #31: _PyObject_FastCallDictTstate + 0x13e (0x4effee in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #32: _PyObject_Call_Prepend + 0x66 (0x502de6 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #33: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x5cb733]
+frame #34: PyObject_Call + 0x158 (0x505c58 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #35: _PyEval_EvalFrameDefault + 0x44a1 (0x4ebea1 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #36: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4f81d3]
+frame #37: _PyEval_EvalFrameDefault + 0x3d5 (0x4e7dd5 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #38: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4f81d3]
+frame #39: _PyEval_EvalFrameDefault + 0x44a1 (0x4ebea1 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #40: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4e6afa]
+frame #41: _PyFunction_Vectorcall + 0xd5 (0x4f7ef5 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #42: _PyEval_EvalFrameDefault + 0x3d5 (0x4e7dd5 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #43: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x4e6afa]
+frame #44: _PyEval_EvalCodeWithName + 0x47 (0x4e6787 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #45: PyEval_EvalCodeEx + 0x39 (0x4e6739 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #46: PyEval_EvalCode + 0x1b (0x5942bb in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #47: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x5c1777]
+frame #48: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x5bd780]
+frame #49: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x456695]
+frame #50: PyRun_SimpleFileExFlags + 0x1a2 (0x5b7462 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #51: Py_RunMain + 0x37e (0x5b49de in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #52: Py_BytesMain + 0x39 (0x588369 in /home/apetrella/miniconda3/envs/Parallel-DL/bin/python)
+frame #53: __libc_start_main + 0xf3 (0x15457c6deca3 in /lib64/libc.so.6)
+frame #54: /home/apetrella/miniconda3/envs/Parallel-DL/bin/python() [0x58821e]
+
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** STEP 530361.2 ON gn01 CANCELLED AT 2025-02-21T09:46:21 ***
+slurmstepd: error: *** JOB 530361 ON gn01 CANCELLED AT 2025-02-21T09:46:21 ***

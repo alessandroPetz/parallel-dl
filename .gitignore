@@ -1,0 +1,3 @@
+FSDP/__pycache__/
+*.pt
+*.csv
