@@ -28,7 +28,7 @@ head_node_ip_infiniband=$(srun --nodes=1 --ntasks=1 -w "$head_node" ip -o -4 add
 # config ethernet
 export MASTER_ADDR=$head_node_ip
 export MASTER_PORT=29500
-export NCCL_IB_DISABLE=1   # Disabilita InfiniBand
+export NCCL_IB_DISABLE=0   # Disabilita InfiniBand
 export NCCL_P2P_DISABLE=0  # Mantiene il supporto per P2P over PCIe
 export NCCL_SHM_DISABLE=0  # Abilita l'uso della shared memory 
 

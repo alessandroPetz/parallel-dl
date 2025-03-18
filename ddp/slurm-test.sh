@@ -1,6 +1,6 @@
 #!/bin/bash
-### #SBATCH --nodelist=gn01,gn02
-#SBATCH --nodes=2
+#SBATCH --nodelist=gn01,gn02
+#SBATCH --nodes=2  
 #SBATCH --ntasks=2
 #SBATCH --gpus-per-task=2
 #SBATCH --cpus-per-task=4
@@ -11,8 +11,9 @@
 #SBATCH --output=ddp-multigpu.log
 #---------------------------------------------------------------------------------------
 
-module load slurm
+# 4 nodi, 4 task, ogni task 2 gpu. il task e il numero di nodi deve essere lo stesso....
 
+module load slurm
 
 eval "$(conda shell.bash hook)"
 conda activate Parallel-DL
@@ -30,27 +31,29 @@ head_node_ip_infiniband=$(srun --nodes=1 --ntasks=1 -w "$head_node" ip -o -4 add
 #export LOGLEVEL=INFO
 
 
-
 #INSERT YOUR SCRIPT HERE
 # senza infiniband
-export MASTER_ADDR=$head_node_ip
+#export MASTER_ADDR=$head_node_ip
+#export MASTER_ADDR=$head_node  # gli passo il nome del nodo head e funziona
 export MASTER_PORT=29500
-export NCCL_IB_DISABLE=1   # Disabilita InfiniBand
-export NCCL_P2P_DISABLE=0  # Mantiene il supporto per P2P over PCIe
-export NCCL_SHM_DISABLE=0  # Abilita l'uso della shared memory 
+#export NCCL_IB_DISABLE=1   # Disabilita InfiniBand
+#export NCCL_P2P_DISABLE=0  # Mantiene il supporto per P2P over PCIe
+#export NCCL_SHM_DISABLE=0  # Abilita l'uso della shared memory 
 
 
 # Configura NCCL per InfiniBand
-#export MASTER_ADDR=$head_node_ip_infiniband
-#export MASTER_PORT=29500
-#export NCCL_SOCKET_IFNAME=ib0
-#export NCCL_IB_DISABLE=0
-#export NCCL_P2P_DISABLE=0
-#export NCCL_SHM_DISABLE=0
-
+# export MASTER_ADDR=$head_node_ip_infiniband
+# export MASTER_PORT=$(expr 10000 + $(echo -n $SLURM_JOBID | tail -c 4))
+# export NCCL_SOCKET_IFNAME=ib0
+# export NCCL_IB_HCA=mlx5_0
+# export NCCL_IB_DISABLE=0
+# export NCCL_P2P_DISABLE=0
+# export NCCL_SHM_DISABLE=0
+# export NCCL_IB_GID_INDEX=3
 
 echo "CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES"
 echo "MASTER_ADDR=$MASTER_ADDR" > ddp-multigpu.output
+echo "MASTER_PORT=$MASTER_PORT" >> ddp-multigpu.output
 echo "SLURM_JOB_ID=$SLURM_JOB_ID" >> ddp-multigpu.output
 # echo "CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES" >> ddp-multigpu.output
 echo "Node ID: $SLURM_NODEID, Process ID: $SLURM_PROCID" >> ddp-multigpu.output
@@ -62,4 +65,4 @@ srun torchrun  \
     --nproc_per_node=2 \
     --rdzv_backend=c10d \
     --rdzv_endpoint=$MASTER_ADDR:$MASTER_PORT \
-    multinode-torchrun.py 150 10
+    multinode-torchrun.py 5000 100

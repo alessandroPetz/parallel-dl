@@ -1,7 +1,7 @@
 #!/bin/bash
-### #SBATCH --nodelist=gn01,gn02
-#SBATCH --nodes=1  
-#SBATCH --ntasks=1
+#SBATCH --nodelist=gn01,gn02
+#SBATCH --nodes=2  
+#SBATCH --ntasks=2
 #SBATCH --gpus-per-task=2
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=0
@@ -30,14 +30,12 @@ head_node_ip_infiniband=$(srun --nodes=1 --ntasks=1 -w "$head_node" ip -o -4 add
 #export NCCL_DEBUG_SUBSYS=ALL
 #export LOGLEVEL=INFO
 
-
-
-
 #INSERT YOUR SCRIPT HERE
 # senza infiniband
-export MASTER_ADDR=$head_node_ip
+#export MASTER_ADDR=$head_node_ip
+export MASTER_ADDR=gn01
 export MASTER_PORT=10660
-export NCCL_IB_DISABLE=1   # Disabilita InfiniBand
+export NCCL_IB_DISABLE=0   # Disabilita InfiniBand
 export NCCL_P2P_DISABLE=0  # Mantiene il supporto per P2P over PCIe
 export NCCL_SHM_DISABLE=0  # Abilita l'uso della shared memory 
 
@@ -61,13 +59,9 @@ echo "Node ID: $SLURM_NODEID, Process ID: $SLURM_PROCID" >> ddp-multigpu.output
 
 accelerate launch train.py
 
-# srun python multigpu.py 50 10
-# torchrun --standalone --nproc_per_node=gpu multigpu-torchrun.py 150 10   
 # srun torchrun  \
 #     --nnodes=2 \
 #     --nproc_per_node=2 \
 #     --rdzv_backend=c10d \
 #     --rdzv_endpoint=$MASTER_ADDR:$MASTER_PORT \
-#     multinode-torchrun.py 150 10
-
-# srun torchrun --nnodes=2  --nproc_per_node=2  --rdzv_backend=c10d --rdzv_endpoint=192.168.4.101:19200 multinode-torchrun.py 150 10
+#     train_no_acc.py
