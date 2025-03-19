@@ -53,4 +53,3 @@ echo "SLURM_JOB_ID=$SLURM_JOB_ID" >> ddp-multigpu.output
 echo "Node ID: $SLURM_NODEID, Process ID: $SLURM_PROCID" >> ddp-multigpu.output
 
 python main_FSDP_mnist.py
-
