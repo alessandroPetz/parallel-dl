@@ -2,8 +2,10 @@ import os
 import torch
 import time
 import torch.distributed as dist
-from torch.nn.parallel import DistributedDataParallel as DDP
-from torch.utils.data import DataLoader, DistributedSampler, TensorDataset
+from torch.distributed.fsdp import FullyShardedDataParallel as FSDP
+from torch.distributed.fsdp.fully_sharded_data_parallel import CPUOffload
+from torch.distributed.fsdp.wrap import wrap
+from torch.utils.data import DataLoader, DistributedSampler
 from transformers import (
     AutoTokenizer,
     AutoModelForSequenceClassification,
@@ -11,28 +13,24 @@ from transformers import (
     AdamW,
     get_scheduler,
 )
-from datasets import load_dataset,load_from_disk
+from datasets import load_dataset, load_from_disk
 
-
-def setup_ddp():
-    """Setup per DDP."""
+def setup_fsdp():
+    """Setup per FSDP."""
     dist.init_process_group(backend="nccl")
     local_rank = int(os.environ["LOCAL_RANK"])
     torch.cuda.set_device(local_rank)
 
-
 def cleanup():
-    """Chiude il processo DDP."""
+    """Chiude il processo distribuito."""
     dist.destroy_process_group()
 
 def get_dataloaders(batch_size):
     """Prepara i DataLoader distribuiti."""
-    
     dataset_path = "tokenized_datasets"
     
     if not os.path.exists(dataset_path):
-        # Se il dataset non esiste, crealo e salvalo
-        raw_datasets = load_dataset("glue", "mrpc")  #mrpc
+        raw_datasets = load_dataset("glue", "mrpc")   #qnli o mrpc
         tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
 
         def tokenize_function(example):
@@ -42,11 +40,8 @@ def get_dataloaders(batch_size):
         tokenized_datasets = tokenized_datasets.remove_columns(["question", "sentence", "idx"])
         tokenized_datasets = tokenized_datasets.rename_column("label", "labels")
         tokenized_datasets.set_format("torch")
-
-        # Salva il dataset in formato compatibile con `datasets`
         tokenized_datasets.save_to_disk(dataset_path)
     else:
-        # Carica il dataset già preprocessato
         tokenized_datasets = load_from_disk(dataset_path)
 
     train_sampler = DistributedSampler(tokenized_datasets["train"])
@@ -70,18 +65,15 @@ def get_dataloaders(batch_size):
 
     return train_dataloader, eval_dataloader
 
-
 def train(rank, num_epochs, batch_size):
-    """Esegue il training distribuito."""
-    setup_ddp()
+    """Esegue il training distribuito con FSDP."""
+    setup_fsdp()
     local_rank = int(os.environ["LOCAL_RANK"])
     device = torch.device(f"cuda:{local_rank}")
     
-    # Caricamento modello
     model = AutoModelForSequenceClassification.from_pretrained("bert-base-uncased", num_labels=2).to(device)
-    model = DDP(model, device_ids=[local_rank])
+    model = FSDP(model, cpu_offload=CPUOffload(offload_params=True))
     
-    # Caricamento DataLoader
     train_dataloader, eval_dataloader = get_dataloaders(batch_size)
     
     optimizer = AdamW(model.parameters(), lr=5e-5)
@@ -90,14 +82,15 @@ def train(rank, num_epochs, batch_size):
     
     model.train()
     start_training_time = time.time()
+
     for epoch in range(num_epochs):
         cont_print = 0
         train_dataloader.sampler.set_epoch(epoch)
         for batch in train_dataloader:
-            if cont_print%10 == 0:
+            if cont_print % 10 == 0:
                 b_sz = len(batch["attention_mask"])
-                print(f"[GPU{device} - RANK{local_rank}] Epoch {epoch} | Batchsize: {b_sz} | cont_print{cont_print}")
-            cont_print=cont_print+1
+                print(f"[GPU{device} - RANK{local_rank}] Epoch {epoch} | Batchsize: {b_sz} | cont_print {cont_print}")
+            cont_print += 1
             batch = {k: v.to(device) for k, v in batch.items()}
             outputs = model(**batch)
             loss = outputs.loss
@@ -112,10 +105,9 @@ def train(rank, num_epochs, batch_size):
     
     cleanup()
 
-
 if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(description="Distributed Training with DDP")
+    parser = argparse.ArgumentParser(description="Distributed Training with FSDP")
     parser.add_argument("--epochs", default=1, type=int, help="Numero di epoche di training")
     parser.add_argument("--batch_size", default=32, type=int, help="Batch size per GPU")
     args = parser.parse_args()
